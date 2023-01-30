@@ -16,9 +16,9 @@ if [ ! -x "$(command -v screen)" ]; then
   sudo apt-get -q update && sudo apt-get -q install screen -y
 fi
 
-mv bdsx-scripts/minecraft-control.sh ~
-chmod +x ~/minecraft-control.sh
 if [ ! -d "/srv/minecraft" ]; then sudo mkdir /srv/minecraft && sudo chown -R "$USER" /srv/minecraft; fi
+mv bdsx-scripts/minecraft-control.sh ~ && mv bdsx-scripts /srv/minecraft/
+chmod +x ~/minecraft-control.sh
 cd /srv/minecraft
 git clone https://github.com/bdsx/bdsx.git
 ~/minecraft-control.sh
