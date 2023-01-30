@@ -18,7 +18,7 @@ function backup () {
 	sendtoserver "save hold"
 	sleep 5
 	CURRENTDATE=`date +"%Y%m%d-%H%M%S"`
-	if [ ! -d "./bedrock_server/backup" ]; then
+	if [ ! -d "./backup" ]; then
 		mkdir backup
 	fi
 	tar -cf backup/worlds-${CURRENTDATE}.tar worlds/
