@@ -18,7 +18,10 @@ function backup () {
 	sendtoserver "save hold"
 	sleep 5
 	CURRENTDATE=`date +"%Y%m%d-%H%M%S"`
-	tar -cf worlds/backup/Bedrock_level-${CURRENTDATE}.tar worlds/Bedrock\ level/
+	if [ ! -d "./bedrock_server/backup" ]; then
+		mkdir backup
+	fi
+	tar -cf backup/worlds-${CURRENTDATE}.tar worlds/
 	sendtoserver "save resume"
 	sendtoserver "say Backup complete!"
 }
@@ -26,7 +29,7 @@ function backup () {
 # Clear out backups folder
 # Remove backups more than 14 days old
 function cleanbackups () {
-	find ./worlds/backup -type f -mtime +13 -delete
+	find ./bedrock_server/backup/worlds -type f -mtime +13 -delete
 }
 
 # If logging in, attach to screen
@@ -36,7 +39,9 @@ fi
 
 # Send stop command; server will automatically restart in 5 seconds
 if [ "$1" == "stop" ]; then
-	screen -S MinecraftServer -X stuff "stop"$'\n'
+	sendtoserver("say Server will stop in 5 seconds...")
+	sleep 5
+	sendtoserver("stop")
 fi
 
 # Backup world
@@ -46,14 +51,18 @@ if [ "$1" == "backup" ]; then
 	if [ "$2" == "clean" ]; then
 		cleanbackups
 	fi
-	
 fi
 
 # Auto restart
 # backs up the world then stops the server
 if [ "$1" == "restart" ]; then
-	backup
+	if [ "$2" == "backup" ]; then
+		backup
+		if [ "$3" == "clean" ]; then cleanbackups; fi
+	fi
 	sendtoserver "say Server will restart in 5 seconds..."
 	sleep 5
 	sendtoserver "stop"
 fi
+
+clear
