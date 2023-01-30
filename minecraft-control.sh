@@ -4,7 +4,7 @@ cd /srv/minecraft
 
 # On first run, make sure screen is running
 if ! screen -list | grep -q MinecraftServer; then
-	screen -S MinecraftServer ./bdsx-scripts/start.sh
+	screen -S MinecraftServer bash ./bdsx-scripts/start.sh
 fi
 
 # Send argument $1 to screen with trailing newline
@@ -39,9 +39,9 @@ fi
 
 # Send stop command; server will automatically restart in 5 seconds
 if [ "$1" == "stop" ]; then
-	sendtoserver("say Server will stop in 5 seconds...")
+	sendtoserver "say Server will stop in 5 seconds..."
 	sleep 5
-	sendtoserver("stop")
+	sendtoserver "stop"
 fi
 
 # Backup world
