@@ -21,7 +21,7 @@ function backup () {
 	if [ ! -d "./backup" ]; then
 		mkdir backup
 	fi
-	tar -cf backup/worlds-${CURRENTDATE}.tar worlds/
+	tar -cf backup/worlds-${CURRENTDATE}.tar bedrock_server/worlds/
 	sendtoserver "save resume"
 	sendtoserver "say Backup complete!"
 }
