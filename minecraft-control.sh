@@ -2,7 +2,18 @@
 
 cd /srv/minecraft
 
-# On first run, make sure screen is running
+# Return if screen is running
+if [ "$1" == "running" ]; then
+	if screen -list | grep -q "MinecraftServer"; then
+		echo "MinecraftServer is running."
+	else
+		echo "MinecraftServer is not running."
+	fi
+	
+	exit 0
+fi
+
+# Start screen & server if not already running
 if ! screen -list | grep -q MinecraftServer; then
 	screen -L -Logfile ./bdsx/logs/latest.log -S MinecraftServer bash ./bdsx-scripts/start.sh
 fi
@@ -21,7 +32,9 @@ function backup () {
 	if [ ! -d "./backup" ]; then
 		mkdir backup
 	fi
-	tar -cf backup/worlds-${CURRENTDATE}.tar bedrock_server/worlds/
+	cd bedrock_server
+	tar -cf ../backup/worlds-${CURRENTDATE}.tar worlds/
+	cd ..
 	sendtoserver "save resume"
 	sendtoserver "say Backup complete!"
 }
@@ -29,7 +42,7 @@ function backup () {
 # Clear out backups folder
 # Remove backups more than 14 days old
 function cleanbackups () {
-	find ./bedrock_server/backup/worlds -type f -mtime +13 -delete
+	find ./backup/worlds -type f -mtime +13 -delete
 }
 
 # If logging in, attach to screen
