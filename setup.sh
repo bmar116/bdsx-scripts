@@ -25,8 +25,7 @@ cd plugins
 git clone https://github.com/bmar116/clamor-chatbot.git
 git clone https://github.com/bmar116/tpa.git
 git clone https://github.com/bmar116/betterchat.git
-mkdir web-panel && cd web-panel
-wget https://github.com/Rjlintkh/bdsx-web-panel/releases/latest/download/web-panel.zip && unzip web-panel.zip && rm web-panel.zip && cd ..
+mkdir web-panel && cd web-panel && wget https://github.com/Rjlintkh/bdsx-web-panel/releases/latest/download/web-panel.zip && unzip web-panel.zip && rm web-panel.zip && cd ..
 cd ..
 
 # first run
